@@ -4,6 +4,8 @@ var http = require('http').Server(app);
 var http2 = require('http').Server(app);
 const { ExpressPeerServer } = require('peer');
 const { Server } = require('socket.io');
+const path = require('path');
+
 const peerServer = ExpressPeerServer(http, {
   debug: true,
 });
