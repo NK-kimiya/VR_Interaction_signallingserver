@@ -22,7 +22,7 @@ app.use('/peerjs', peerServer);
 app.get("/", (req, res) => {
   res.render("room")
 });
-
+app.set('views', path.join(__dirname, 'views'))
 const io = new Server(http
   , {
     cors: {
