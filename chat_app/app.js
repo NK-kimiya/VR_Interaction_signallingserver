@@ -14,8 +14,7 @@ const cors = require("cors");
 require('dotenv').config();
 
 app.use(cors({
-  origin: process.env.CORS_ORIGIN
-  //'https://comunity-app-front.web.app/',//本番用コード
+  origin:'https://comunity-app-front.web.app/',//本番用コー// process.env.CORS_ORIGIN
 }));
 
 app.use(express.static("public"));
