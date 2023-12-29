@@ -10,6 +10,7 @@ const peerServer = ExpressPeerServer(http, {
   debug: true,
 });
 let connectedUsers = []; // 接続されている全ユーザーの情報を格納する配列
+let userCount = 0; // 接続中のユーザー数を追跡する変数
 const cors = require("cors");
 require('dotenv').config();
 
@@ -37,6 +38,7 @@ const chat_socket = io.of('/chat');
 const video_socket = io.of('/video_socket');//追加
 const audio_chat_socket = io.of('/audio_chat_socket');
 const video_chat_socket = io.of('/video_chat_socket');
+const user_count = io.of('/user_count');
 
 chat_socket.on('connection', (socket) => {
   socket.emit('allUsersInfo', Object.values(connectedUsers));
@@ -44,7 +46,6 @@ chat_socket.on('connection', (socket) => {
   socket.on('userInfo', (userInfo) => {
     // ユーザー情報を保存
     connectedUsers[socket.id] = userInfo;
-    console.log('Updated connected users:', connectedUsers); // ログ出力
     // 新しいユーザー情報を全クライアントにブロードキャスト
     chat_socket.emit('allUsersInfo', Object.values(connectedUsers));
   });
@@ -57,13 +58,13 @@ chat_socket.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
     socket.rooms.forEach((ROOM_ID) => {
       socket.to(ROOM_ID).emit("user-disconnected", socket.id);
     });
     // connectedUsersからユーザーを削除し、更新情報をブロードキャスト
     delete connectedUsers[socket.id];
     chat_socket.emit('allUsersInfo', Object.values(connectedUsers));
+    chat_socket.emit('userDisconnected', socket.id); // イベント名を変更
   });
 });
 
@@ -97,7 +98,16 @@ video_socket.on("connection", socket => {
   })
 })
 
+user_count.on('connection', (socket) => {
+  userCount++;
+  user_count.emit('userCountUpdate', userCount);
+
+  socket.on('disconnect', () => {
+    userCount--;
+    user_count.emit('userCountUpdate', userCount);
+  });
+});
 
 http.listen(process.env.PORT || 3000, function () {
-  console.log('listening on *:3000');
+
 });

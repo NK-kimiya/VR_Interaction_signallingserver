@@ -22,40 +22,38 @@ const connectToNewUser = (userId, stream) => {
     call.on("stream", (userVideoStream) => {
         addVideoStream(video, userVideoStream)
     });
-    call.on("close", ()=> {
+    call.on("close", () => {
         video.remove();
     })
     peers[userId] = call;
 }
 
 navigator.mediaDevices.getUserMedia({
-    video:true,
-    audio:true,
+    video: true,
+    audio: true,
 })
-.then((stream) => {
-    myVideoStream = stream;
-    addVideoStream(myVideo, stream);
-    myPeer.on("call", (call) => {
-        call.answer(stream);
-        const video = document.createElement("video");
-        call.on("stream", userVideoStream => {
-            addVideoStream(video, userVideoStream)
-        });
-        const userId = call.peer
-        peers[userId] = call;
-    })
+    .then((stream) => {
+        myVideoStream = stream;
+        addVideoStream(myVideo, stream);
+        myPeer.on("call", (call) => {
+            call.answer(stream);
+            const video = document.createElement("video");
+            call.on("stream", userVideoStream => {
+                addVideoStream(video, userVideoStream)
+            });
+            const userId = call.peer
+            peers[userId] = call;
+        })
 
-    socket.on("user-connected", (userId) => {
-    console.log("userId=" + userId);
-    connectToNewUser(userId, stream);
+        socket.on("user-connected", (userId) => {
+            connectToNewUser(userId, stream);
+        });
+    }).catch((error) => {
+
     });
-}).catch((error) => {
-    console.log('getUserMedia error:' + error);
-});
 
 socket.on("user-disconnected", (userId) => {
-    console.log('userId=' + userId);
-    if(peers[userId]) {
+    if (peers[userId]) {
         peers[userId].close();
     }
 })
@@ -65,11 +63,11 @@ myPeer.on("open", (userId) => {
 })
 
 myPeer.on("disconnected", (userId) => {
-    console.log("disconnected=" + userId);
+
 })
 const muteUnmute = (e) => {
     const enabled = myVideoStream.getAudioTracks()[0].enabled;
-    if(enabled) {
+    if (enabled) {
         e.classList.add("active");
         myVideoStream.getAudioTracks()[0].enabled = false;
     } else {
@@ -78,9 +76,8 @@ const muteUnmute = (e) => {
     }
 }
 const playStop = (e) => {
-    console.log("ビデオを止める");
     const enabled = myVideoStream.getVideoTracks()[0].enabled;
-    if(enabled) {
+    if (enabled) {
         e.classList.add("active");
         myVideoStream.getVideoTracks()[0].enabled = false;
     } else {
@@ -92,7 +89,7 @@ const leaveVideo = (e) => {
     socket.disconnect();
     myPeer.disconnect();
     const videos = document.getElementsByTagName("video");
-    for (let i = videos.length - 1; i >= 0; --i){
+    for (let i = videos.length - 1; i >= 0; --i) {
         videos[i].remove();
     }
 };
