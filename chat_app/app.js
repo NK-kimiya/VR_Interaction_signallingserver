@@ -108,11 +108,8 @@ user_count.on('connection', (socket) => {
   });
 });
 
-http.listen(process.env.PORT || 3000, function () {
 
-=======
 const port = process.env.PORT || 3000;
 http.listen(port || 3000, function () {
   console.log('listening on *:' + port);
->>>>>>> 69444d89ae1aa7d3836559174d64d4513e2ff123
 });
