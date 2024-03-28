@@ -100,6 +100,7 @@ video_chat_socket.on("connection", socket => {
       socket.to(toUserId).emit('ice-candidate', candidate);
     });
     socket.on("disconnect", () => {
+      print('切断されました')
       socket.to(roomId).emit("user-disconnected", userId)
     })
   })
