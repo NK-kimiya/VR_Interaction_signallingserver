@@ -79,9 +79,26 @@ audio_chat_socket.on("connection", socket => {
 })
 
 video_chat_socket.on("connection", socket => {
+  console.log("受信完了");
   socket.on("join-room", (roomId, userId) => {
+    console.log("部屋に参加");
     socket.join(roomId);
     socket.to(roomId).emit("user-connected", userId);
+
+    // オファーを受信した場合の処理
+    socket.on('offer', (offer, toUserId) => {
+      socket.to(toUserId).emit('offer', offer, userId);
+    });
+
+    // アンサーを受信した場合の処理
+    socket.on('answer', (answer, toUserId) => {
+      socket.to(toUserId).emit('answer', answer, userId);
+    });
+
+    // ICE候補を受信した場合の処理
+    socket.on('ice-candidate', (candidate, toUserId) => {
+      socket.to(toUserId).emit('ice-candidate', candidate);
+    });
     socket.on("disconnect", () => {
       socket.to(roomId).emit("user-disconnected", userId)
     })
