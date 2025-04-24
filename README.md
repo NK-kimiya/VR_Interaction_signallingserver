@@ -34,6 +34,19 @@ app.use(cors({
 
 ### 連携プロジェクト
 
--このプロジェクトは下記のReactのプロジェクトと連携しています。
+[VR_Interaction_WebRTC(React)](https://github.com/NK-kimiya/VR_Interaction_WebRTC)　
+
+-WebRTCを使用して、Web上で音声通話、ビデオ通話を行う　
+-アカウントの作成とログインのリクエスト　
+
+[VR_Interaction_API(Django)](https://github.com/NK-kimiya/VR_Interaction_API)　
+
+-Reactでカウントの作成、ログイン処理のAPI
+-VRでユーザーIDを通したログイン処理のAPI　
+
+[VR_Interaction_UnityOpenXR(Unity)](https://github.com/NK-kimiya/VR_Interaction_UnityOpenXR)　
+
+-MetaQuest2を使用したVR空間のアバター操作
+
 
 
