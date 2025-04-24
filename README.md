@@ -17,9 +17,11 @@
 - `peer`：P2P通信（WebRTC仲介）
 - `cors`：CORS制御
 
-##デプロイの注意事項 
+## デプロイの注意事項 
 
-app.jsの以下のコード```origin: process.env.CORS_ORIGIN```の箇所にデプロイしたURLを記載するか、環境変数ファイルにデプロイしたURLを追加して下さい。
+app.jsの以下のコード```origin: process.env.CORS_ORIGIN```の箇所にデプロイしたURLを記載するか、環境変数ファイルにデプロイしたURLを追加して下さい。　
+
+```https://comunity-app-front.web.app/```は、ホスティングされていないURLです。
 
 ```
 app.use(cors({
