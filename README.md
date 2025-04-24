@@ -37,7 +37,7 @@
 - `peer`：P2P通信（WebRTC仲介）
 - `cors`：CORS制御
 
-#### サーバー側（Express + PeerJSサーバー)　
+#### サーバー側（Express + PeerJS)　
 
 ・クライアントのPeerIDを **登録・管理**　
 
