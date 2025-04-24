@@ -17,6 +17,17 @@
 - `peer`：P2P通信（WebRTC仲介）
 - `cors`：CORS制御
 
+##デプロイの注意事項 
+
+app.jsの以下のコード```origin: process.env.CORS_ORIGIN```の箇所にデプロイしたURLを記載するか、環境変数ファイルにデプロイしたURLを追加して下さい。
+
+```
+app.use(cors({
+  origin: process.env.CORS_ORIGIN
+  //'https://comunity-app-front.web.app/',//本番用コード
+}));
+```
+
 ### 連携プロジェクト
 
 -このプロジェクトは下記のReactのプロジェクトと連携しています。
